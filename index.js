@@ -3,6 +3,7 @@ const cors = require("cors")
 const nodemailer = require("nodemailer")
 const app = express();
 const port = process.env.PORT || 3030;
+const template = require("./template");
 
 app.use(cors());
 app.use(express.json());
@@ -20,7 +21,6 @@ require('dotenv').config();
 const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
     port: Number(process.env.MAIL_PORT),
-    secure:false,
     auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASSWORD
@@ -33,17 +33,18 @@ const transporter = nodemailer.createTransport({
 
 
 app.post("/api/send", (req, res) => {
+    const message = template(req.body.name)
     const mailOptions = {
         from: "hello@demomailtrap.com",
         to: req.body.to,
         subject: req.body.subject,
-        html: req.body.message
+        html: message
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if(error){
             return res.status(500).send(error);
         }
-        res.status(200).send("Email sent successfully");
+        res.status(200).json("Email sent successfully");
     });
 });
 
