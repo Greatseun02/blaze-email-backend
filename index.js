@@ -5,7 +5,17 @@ const app = express();
 const port = process.env.PORT || 3030;
 const template = require("./template");
 
-app.use(cors());
+const allowedOrigins = [
+    "https://blazeapp.co",
+    "https://blaze-landing.onrender.com",
+    "http:localhost:5173"
+]
+
+const corsOptions = {
+    origin: allowedOrigins
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 require('dotenv').config();
