@@ -8,7 +8,7 @@ const template = require("./template");
 const allowedOrigins = [
     "https://blazeapp.co",
     "https://blaze-landing.onrender.com",
-    "http:localhost:5173"
+    "http://localhost:5173"
 ]
 
 const corsOptions = {
